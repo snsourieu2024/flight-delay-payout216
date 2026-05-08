@@ -1,0 +1,748 @@
+{
+  "coverage": {
+    "months_present": [
+      "2023-03",
+      "2023-06",
+      "2023-09",
+      "2023-12",
+      "2024-03"
+    ],
+    "rows_per_month": {
+      "2023-03": 681919,
+      "2023-06": 884823,
+      "2023-09": 899495,
+      "2023-12": 697362,
+      "2024-03": 727011
+    },
+    "total_rows": 3890610,
+    "earliest": "2023-03-01",
+    "latest": "2024-03-31",
+    "n_unique_origins": 1931,
+    "n_unique_destinations": 1910,
+    "n_unique_operators": 663,
+    "n_unique_aircraft_types": 276
+  },
+  "overall": {
+    "n_flights": 3890610,
+    "n_operated_flights": 3890610,
+    "n_cancelled_or_missing_actuals": 0,
+    "cancelled_or_missing_rate": 0.0,
+    "n_delayed_15m": 765682,
+    "delayed_15m_rate": 0.1968025579536371,
+    "n_delayed_60m": 41402,
+    "delayed_60m_rate": 0.010641518939189484,
+    "n_delayed_3h": 822,
+    "delayed_3h_rate": 0.0002112779229992212,
+    "arr_delay_stats_min": {
+      "mean": 4.7773119425145785,
+      "median": 2.8666666666666667,
+      "p75": 12.083333333333334,
+      "p90": 23.55,
+      "p95": 33.31666666666667,
+      "p99": 61.21666666666667,
+      "max": 1463.0
+    },
+    "dep_delay_stats_min": {
+      "mean": 5.773092402819433,
+      "median": 3.0,
+      "p75": 11.5,
+      "p90": 22.0,
+      "p95": 32.18333333333333,
+      "p99": 62.0,
+      "max": 1411.3666666666666
+    }
+  },
+  "per_month": {
+    "2023-03": {
+      "n_flights": 681919,
+      "n_operated": 681919,
+      "n_cancelled_or_missing": 0,
+      "delayed_15m_rate": 0.19511701536399484,
+      "delayed_60m_rate": 0.012008757638370539,
+      "delayed_3h_rate": 0.0002258332734532987,
+      "mean_arr_delay_min": 4.6690440751272,
+      "median_arr_delay_min": 2.5833333333333335,
+      "p90_arr_delay_min": 23.866666666666667,
+      "share_short_haul": 0.6148677482222962,
+      "share_medium_haul": 0.23542532177575343,
+      "share_long_haul": 0.14970693000195037,
+      "mean_distance_km": 2005.1568112316454
+    },
+    "2023-06": {
+      "n_flights": 884823,
+      "n_operated": 884823,
+      "n_cancelled_or_missing": 0,
+      "delayed_15m_rate": 0.23237528861704546,
+      "delayed_60m_rate": 0.014226574128385,
+      "delayed_3h_rate": 0.00023507526364029867,
+      "mean_arr_delay_min": 6.744841454166539,
+      "median_arr_delay_min": 4.383333333333334,
+      "p90_arr_delay_min": 26.633333333333333,
+      "share_short_haul": 0.5796492631859705,
+      "share_medium_haul": 0.2920448496478957,
+      "share_long_haul": 0.12830588716613378,
+      "mean_distance_km": 1976.6005030284437
+    },
+    "2023-09": {
+      "n_flights": 899495,
+      "n_operated": 899495,
+      "n_cancelled_or_missing": 0,
+      "delayed_15m_rate": 0.20136965741888505,
+      "delayed_60m_rate": 0.009060639581098283,
+      "delayed_3h_rate": 0.00015564288850966376,
+      "mean_arr_delay_min": 5.066899723363295,
+      "median_arr_delay_min": 3.3333333333333335,
+      "p90_arr_delay_min": 23.483333333333334,
+      "share_short_haul": 0.5772005403031701,
+      "share_medium_haul": 0.29416283581342867,
+      "share_long_haul": 0.12863662388340125,
+      "mean_distance_km": 1988.6342322081082
+    },
+    "2023-12": {
+      "n_flights": 697362,
+      "n_operated": 697362,
+      "n_cancelled_or_missing": 0,
+      "delayed_15m_rate": 0.19062122685205102,
+      "delayed_60m_rate": 0.01130259463521098,
+      "delayed_3h_rate": 0.00028536111804199256,
+      "mean_arr_delay_min": 4.373081245226056,
+      "median_arr_delay_min": 2.45,
+      "p90_arr_delay_min": 23.083333333333332,
+      "share_short_haul": 0.593584106963098,
+      "share_medium_haul": 0.24141980778992833,
+      "share_long_haul": 0.1649960852469736,
+      "mean_distance_km": 2128.1938982929614
+    },
+    "2024-03": {
+      "n_flights": 727011,
+      "n_operated": 727011,
+      "n_cancelled_or_missing": 0,
+      "delayed_15m_rate": 0.1553676629376997,
+      "delayed_60m_rate": 0.006317648563776889,
+      "delayed_3h_rate": 0.00016643489575811094,
+      "mean_arr_delay_min": 2.5136968353986386,
+      "median_arr_delay_min": 1.1666666666666667,
+      "p90_arr_delay_min": 19.85,
+      "share_short_haul": 0.5977103510125706,
+      "share_medium_haul": 0.24312424433743093,
+      "share_long_haul": 0.15916540464999843,
+      "mean_distance_km": 2085.6721079227027
+    }
+  },
+  "yoy_march": {
+    "march_2023": {
+      "n_flights": 681919,
+      "delayed_15m_rate": 0.19511701536399484,
+      "delayed_60m_rate": 0.012008757638370539,
+      "delayed_3h_rate": 0.0002258332734532987,
+      "delayed_3h_count": 154,
+      "mean_arr_delay_min": 4.6690440751272,
+      "median_arr_delay_min": 2.5833333333333335,
+      "p90_arr_delay_min": 23.866666666666667,
+      "p95_arr_delay_min": 34.3,
+      "share_long_haul": 0.14970693000195037,
+      "mean_distance_km": 2005.1568112316454
+    },
+    "march_2024": {
+      "n_flights": 727011,
+      "delayed_15m_rate": 0.1553676629376997,
+      "delayed_60m_rate": 0.006317648563776889,
+      "delayed_3h_rate": 0.00016643489575811094,
+      "delayed_3h_count": 121,
+      "mean_arr_delay_min": 2.5136968353986386,
+      "median_arr_delay_min": 1.1666666666666667,
+      "p90_arr_delay_min": 19.85,
+      "p95_arr_delay_min": 28.083333333333332,
+      "share_long_haul": 0.15916540464999843,
+      "mean_distance_km": 2085.6721079227027
+    },
+    "delta_delayed_15m_rate_pp": -3.9749352426295124,
+    "delta_delayed_60m_rate_pp": -0.569110907459365,
+    "delta_delayed_3h_rate_pp": -0.005939837769518777,
+    "delta_mean_delay_min": -2.1553472397285613,
+    "delta_p90_delay_min": -4.016666666666666,
+    "delta_n_flights_pct": 6.612515562698795
+  },
+  "distance_tiers": {
+    "short_haul": {
+      "n": 2299851,
+      "share": 0.5911286404959634,
+      "delayed_3h_rate": 0.00011174636965612121,
+      "ec261_payout_eur": 250.0,
+      "expected_payout_eur": 0.027936592414030303,
+      "mean_distance_km": 749.1718329392852
+    },
+    "medium_haul": {
+      "n": 1028658,
+      "share": 0.2643950434507699,
+      "delayed_3h_rate": 0.00011374042684740701,
+      "ec261_payout_eur": 400.0,
+      "expected_payout_eur": 0.0454961707389628,
+      "mean_distance_km": 2209.3312324877197
+    },
+    "long_haul": {
+      "n": 562101,
+      "share": 0.14447631605326672,
+      "delayed_3h_rate": 0.0007970097900555238,
+      "ec261_payout_eur": 600.0,
+      "expected_payout_eur": 0.47820587403331427,
+      "mean_distance_km": 6955.797881872132
+    }
+  },
+  "top_operators": {
+    "by_volume": [
+      {
+        "OP_UNIQUE_CARRIER": "ZZZ",
+        "n": 674381,
+        "mean_delay": 2.694240743239603,
+        "delayed_3h_rate": 0.0002075977822625489
+      },
+      {
+        "OP_UNIQUE_CARRIER": "RYR",
+        "n": 401819,
+        "mean_delay": 1.9013431835395207,
+        "delayed_3h_rate": 7.466048146055811e-05
+      },
+      {
+        "OP_UNIQUE_CARRIER": "THY",
+        "n": 214789,
+        "mean_delay": 6.353380759722333,
+        "delayed_3h_rate": 0.00012570476141701858
+      },
+      {
+        "OP_UNIQUE_CARRIER": "DLH",
+        "n": 164181,
+        "mean_delay": 1.4779214200587563,
+        "delayed_3h_rate": 3.654503261644161e-05
+      },
+      {
+        "OP_UNIQUE_CARRIER": "AFR",
+        "n": 114050,
+        "mean_delay": 10.45265409907935,
+        "delayed_3h_rate": 0.0001578255151249452
+      },
+      {
+        "OP_UNIQUE_CARRIER": "EZY",
+        "n": 113799,
+        "mean_delay": 5.236560221677402,
+        "delayed_3h_rate": 5.2724540637439695e-05
+      },
+      {
+        "OP_UNIQUE_CARRIER": "KLM",
+        "n": 96949,
+        "mean_delay": 9.070013959229422,
+        "delayed_3h_rate": 0.00041258806176443284
+      },
+      {
+        "OP_UNIQUE_CARRIER": "SAS",
+        "n": 93714,
+        "mean_delay": 1.2278599426624268,
+        "delayed_3h_rate": 4.2683056960539514e-05
+      },
+      {
+        "OP_UNIQUE_CARRIER": "VLG",
+        "n": 87913,
+        "mean_delay": 3.690153333409166,
+        "delayed_3h_rate": 2.2749763971198798e-05
+      },
+      {
+        "OP_UNIQUE_CARRIER": "BAW",
+        "n": 85883,
+        "mean_delay": 15.617813187708858,
+        "delayed_3h_rate": 0.00017465621834356044
+      },
+      {
+        "OP_UNIQUE_CARRIER": "PGT",
+        "n": 71648,
+        "mean_delay": 6.643658813458389,
+        "delayed_3h_rate": 9.769986601161233e-05
+      },
+      {
+        "OP_UNIQUE_CARRIER": "WZZ",
+        "n": 68801,
+        "mean_delay": 2.2514350566609984,
+        "delayed_3h_rate": 8.720803476693653e-05
+      },
+      {
+        "OP_UNIQUE_CARRIER": "EWG",
+        "n": 59249,
+        "mean_delay": 4.828039573101093,
+        "delayed_3h_rate": 5.063376597073368e-05
+      },
+      {
+        "OP_UNIQUE_CARRIER": "SWR",
+        "n": 54761,
+        "mean_delay": 6.865481821004,
+        "delayed_3h_rate": 1.8261171271525357e-05
+      },
+      {
+        "OP_UNIQUE_CARRIER": "TAP",
+        "n": 49113,
+        "mean_delay": 14.075683966906249,
+        "delayed_3h_rate": 8.144483130739315e-05
+      }
+    ],
+    "worst_3h_rate": [
+      {
+        "OP_UNIQUE_CARRIER": "UAL",
+        "n": 23858,
+        "mean_delay": 15.773250761449688,
+        "delayed_3h_rate": 0.004568698130606086
+      },
+      {
+        "OP_UNIQUE_CARRIER": "ACA",
+        "n": 10964,
+        "mean_delay": 29.62510792897969,
+        "delayed_3h_rate": 0.003101058008026268
+      },
+      {
+        "OP_UNIQUE_CARRIER": "TAR",
+        "n": 7600,
+        "mean_delay": 12.666912280701755,
+        "delayed_3h_rate": 0.0014473684210526317
+      },
+      {
+        "OP_UNIQUE_CARRIER": "DAL",
+        "n": 21449,
+        "mean_delay": 10.815325500800348,
+        "delayed_3h_rate": 0.001352044384353583
+      },
+      {
+        "OP_UNIQUE_CARRIER": "DAH",
+        "n": 15599,
+        "mean_delay": 10.081326794452636,
+        "delayed_3h_rate": 0.0008974934290659658
+      },
+      {
+        "OP_UNIQUE_CARRIER": "ETH",
+        "n": 9145,
+        "mean_delay": 12.007433934754875,
+        "delayed_3h_rate": 0.0008747949699289229
+      },
+      {
+        "OP_UNIQUE_CARRIER": "OCN",
+        "n": 5326,
+        "mean_delay": 7.839798472900238,
+        "delayed_3h_rate": 0.0007510326699211416
+      },
+      {
+        "OP_UNIQUE_CARRIER": "AIC",
+        "n": 5518,
+        "mean_delay": 15.858928355684426,
+        "delayed_3h_rate": 0.0007249003262051468
+      },
+      {
+        "OP_UNIQUE_CARRIER": "AAL",
+        "n": 16028,
+        "mean_delay": 2.043926254055403,
+        "delayed_3h_rate": 0.0006239081607187422
+      },
+      {
+        "OP_UNIQUE_CARRIER": "VJT",
+        "n": 9820,
+        "mean_delay": 5.699976238968093,
+        "delayed_3h_rate": 0.0006109979633401223
+      },
+      {
+        "OP_UNIQUE_CARRIER": "ANE",
+        "n": 30248,
+        "mean_delay": 3.0840623071497837,
+        "delayed_3h_rate": 0.000562020629463105
+      },
+      {
+        "OP_UNIQUE_CARRIER": "ICE",
+        "n": 9984,
+        "mean_delay": 11.75008513621795,
+        "delayed_3h_rate": 0.000500801282051282
+      },
+      {
+        "OP_UNIQUE_CARRIER": "MSR",
+        "n": 12369,
+        "mean_delay": 11.291295442908346,
+        "delayed_3h_rate": 0.00048508367693427115
+      },
+      {
+        "OP_UNIQUE_CARRIER": "RAM",
+        "n": 25564,
+        "mean_delay": 9.415925389871173,
+        "delayed_3h_rate": 0.0004302925989672978
+      },
+      {
+        "OP_UNIQUE_CARRIER": "KLM",
+        "n": 96949,
+        "mean_delay": 9.070013959229422,
+        "delayed_3h_rate": 0.00041258806176443284
+      }
+    ],
+    "best_3h_rate": [
+      {
+        "OP_UNIQUE_CARRIER": "IBB",
+        "n": 16525,
+        "mean_delay": -2.905975794251135,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "OP_UNIQUE_CARRIER": "MSC",
+        "n": 5472,
+        "mean_delay": 6.650648757309941,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "OP_UNIQUE_CARRIER": "NOS",
+        "n": 5612,
+        "mean_delay": -0.905699097172725,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "OP_UNIQUE_CARRIER": "SIA",
+        "n": 5846,
+        "mean_delay": 14.900054168092142,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "OP_UNIQUE_CARRIER": "CAI",
+        "n": 6634,
+        "mean_delay": 5.288737312832881,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "OP_UNIQUE_CARRIER": "SAT",
+        "n": 7591,
+        "mean_delay": 0.7837878189083565,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "OP_UNIQUE_CARRIER": "SWT",
+        "n": 7848,
+        "mean_delay": -4.932804536187564,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "OP_UNIQUE_CARRIER": "CCM",
+        "n": 9103,
+        "mean_delay": 3.755600717712109,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "OP_UNIQUE_CARRIER": "BRX",
+        "n": 10078,
+        "mean_delay": -0.8930144870013891,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "OP_UNIQUE_CARRIER": "CTN",
+        "n": 10514,
+        "mean_delay": 3.102810538329846,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "OP_UNIQUE_CARRIER": "AFL",
+        "n": 12244,
+        "mean_delay": -2.6946613307198084,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "OP_UNIQUE_CARRIER": "ELY",
+        "n": 13345,
+        "mean_delay": 7.125200449606594,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "OP_UNIQUE_CARRIER": "DLA",
+        "n": 13676,
+        "mean_delay": 1.6459686068051087,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "OP_UNIQUE_CARRIER": "SDM",
+        "n": 5177,
+        "mean_delay": 5.472506599703818,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "OP_UNIQUE_CARRIER": "ASL",
+        "n": 18550,
+        "mean_delay": 2.7242371967654986,
+        "delayed_3h_rate": 0.0
+      }
+    ]
+  },
+  "top_routes": {
+    "by_volume": [
+      {
+        "ROUTE": "GCLP-GCXO",
+        "n": 3624,
+        "mean_delay": -4.172470566593083,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "GCXO-GCLP",
+        "n": 3609,
+        "mean_delay": -3.526803361965457,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "LEBL-LEPA",
+        "n": 3419,
+        "mean_delay": 2.7361996685190606,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "LEPA-LEBL",
+        "n": 3395,
+        "mean_delay": -1.5540009818360332,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "ENVA-ENGM",
+        "n": 3226,
+        "mean_delay": -5.356669766480677,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "ENGM-ENVA",
+        "n": 3201,
+        "mean_delay": -0.09720399875039051,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "GCRR-GCLP",
+        "n": 3169,
+        "mean_delay": -4.235416009256337,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "GCLP-GCRR",
+        "n": 3168,
+        "mean_delay": 0.3816761363636364,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "KJFK-EGLL",
+        "n": 3157,
+        "mean_delay": 12.297745750184774,
+        "delayed_3h_rate": 0.0022172949002217295
+      },
+      {
+        "ROUTE": "EGLL-KJFK",
+        "n": 3155,
+        "mean_delay": 5.213681986265188,
+        "delayed_3h_rate": 0.0003169572107765452
+      },
+      {
+        "ROUTE": "ENGM-ENBR",
+        "n": 2989,
+        "mean_delay": -0.7636388981822236,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "LEMD-LEPA",
+        "n": 2977,
+        "mean_delay": -1.9116000447878176,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "ENBR-ENGM",
+        "n": 2973,
+        "mean_delay": -11.780289270097546,
+        "delayed_3h_rate": 0.0003363605785401951
+      },
+      {
+        "ROUTE": "LPPT-LEMD",
+        "n": 2923,
+        "mean_delay": 15.931617060098073,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "LEMD-LPPT",
+        "n": 2910,
+        "mean_delay": 12.152256586483391,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "LEPA-LEMD",
+        "n": 2881,
+        "mean_delay": 5.593191021636006,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "LFPO-LFMN",
+        "n": 2766,
+        "mean_delay": 5.812545191612437,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "LFMN-LFPO",
+        "n": 2766,
+        "mean_delay": 6.539389009399856,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "LEBL-LEMD",
+        "n": 2755,
+        "mean_delay": 8.275934664246824,
+        "delayed_3h_rate": 0.0
+      },
+      {
+        "ROUTE": "LTAI-LTFJ",
+        "n": 2751,
+        "mean_delay": -4.2118562946807225,
+        "delayed_3h_rate": 0.0
+      }
+    ],
+    "worst_3h_rate_min10k": []
+  },
+  "hour_of_day": [
+    {
+      "HOUR": 0,
+      "n": 36832,
+      "mean_delay": 10.25470605270779,
+      "delayed_3h_rate": 0.0013575152041702867
+    },
+    {
+      "HOUR": 1,
+      "n": 41685,
+      "mean_delay": 9.840253488465075,
+      "delayed_3h_rate": 0.0014393666786613889
+    },
+    {
+      "HOUR": 2,
+      "n": 47575,
+      "mean_delay": 7.0766431949553334,
+      "delayed_3h_rate": 0.0007566999474513925
+    },
+    {
+      "HOUR": 3,
+      "n": 63462,
+      "mean_delay": 5.003097654239282,
+      "delayed_3h_rate": 0.0003466641454728814
+    },
+    {
+      "HOUR": 4,
+      "n": 134110,
+      "mean_delay": 3.3082400019884175,
+      "delayed_3h_rate": 0.00014913131011855938
+    },
+    {
+      "HOUR": 5,
+      "n": 208935,
+      "mean_delay": 3.7066153747975847,
+      "delayed_3h_rate": 0.00015315768061837414
+    },
+    {
+      "HOUR": 6,
+      "n": 211338,
+      "mean_delay": 3.2995716971549522,
+      "delayed_3h_rate": 0.00014195270135990688
+    },
+    {
+      "HOUR": 7,
+      "n": 214768,
+      "mean_delay": 3.5545436626188875,
+      "delayed_3h_rate": 0.00021884079564925873
+    },
+    {
+      "HOUR": 8,
+      "n": 228278,
+      "mean_delay": 4.652354585198749,
+      "delayed_3h_rate": 0.00015332182689527682
+    },
+    {
+      "HOUR": 9,
+      "n": 226283,
+      "mean_delay": 5.71560980424218,
+      "delayed_3h_rate": 0.00022538149131839333
+    },
+    {
+      "HOUR": 10,
+      "n": 225770,
+      "mean_delay": 5.738303288006969,
+      "delayed_3h_rate": 0.00012402002037471764
+    },
+    {
+      "HOUR": 11,
+      "n": 220255,
+      "mean_delay": 5.662153337419506,
+      "delayed_3h_rate": 0.00012712537740346418
+    },
+    {
+      "HOUR": 12,
+      "n": 216161,
+      "mean_delay": 5.335134228653642,
+      "delayed_3h_rate": 0.00017579489362095846
+    },
+    {
+      "HOUR": 13,
+      "n": 220508,
+      "mean_delay": 5.7316956754403465,
+      "delayed_3h_rate": 0.00010430460572859034
+    },
+    {
+      "HOUR": 14,
+      "n": 220570,
+      "mean_delay": 5.512116637197564,
+      "delayed_3h_rate": 0.00012241011923652356
+    },
+    {
+      "HOUR": 15,
+      "n": 214061,
+      "mean_delay": 5.026854183309119,
+      "delayed_3h_rate": 0.00017751949210738995
+    },
+    {
+      "HOUR": 16,
+      "n": 213481,
+      "mean_delay": 4.303598602842095,
+      "delayed_3h_rate": 9.836940992406818e-05
+    },
+    {
+      "HOUR": 17,
+      "n": 207498,
+      "mean_delay": 3.7176233023932763,
+      "delayed_3h_rate": 9.156714763515792e-05
+    },
+    {
+      "HOUR": 18,
+      "n": 191860,
+      "mean_delay": 3.2305827165641614,
+      "delayed_3h_rate": 4.169707078077765e-05
+    },
+    {
+      "HOUR": 19,
+      "n": 179658,
+      "mean_delay": 3.265243870761855,
+      "delayed_3h_rate": 0.00010575649289205045
+    },
+    {
+      "HOUR": 20,
+      "n": 150881,
+      "mean_delay": 4.110232456925214,
+      "delayed_3h_rate": 0.00020545993199939025
+    },
+    {
+      "HOUR": 21,
+      "n": 98988,
+      "mean_delay": 4.896961416198597,
+      "delayed_3h_rate": 0.0005859296076292076
+    },
+    {
+      "HOUR": 22,
+      "n": 69187,
+      "mean_delay": 6.204885069931249,
+      "delayed_3h_rate": 0.0006215040397762585
+    },
+    {
+      "HOUR": 23,
+      "n": 48466,
+      "mean_delay": 8.829912034553432,
+      "delayed_3h_rate": 0.001196715223042958
+    }
+  ],
+  "expected_value": {
+    "claim_success_alpha": 0.65,
+    "expected_payout_per_flight_eur_no_alpha": 0.09763250492853305,
+    "expected_payout_per_flight_eur_with_alpha": 0.06346112820354649,
+    "n_flights_used": 3890610,
+    "interpretation": "Upper-bound expected payout per flight if every >=180min arrival delay were carrier-attributable. Real EC261 eligibility is a subset of this; the report's section 4.3 quantifies the gap."
+  }
+}

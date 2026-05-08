@@ -1,0 +1,72 @@
+EUROCONTROL R&D Archive — analysis dump
+============================================================
+
+Coverage: 2023-03-01 – 2024-03-31
+Months  : 2023-03, 2023-06, 2023-09, 2023-12, 2024-03
+Flights : 3,890,610 total
+Vocab   : 1931 ADEPs · 1910 ADESs · 663 operators · 276 aircraft types
+
+Overall (note: ARR_DELAY here is actual − latest filed plan,
+not actual − published schedule; ATFM slots are absorbed pre-takeoff)
+------------------------------------------------------------
+  operated flights        : 3,890,610
+  cancelled/missing actuals: 0 (0.00%)
+  flights delayed >=15m   : 765,682 (19.68%)  [CODA threshold]
+  flights delayed >=60m   : 41,402 (1.06%)
+  flights delayed >=3h    : 822 (0.02%)  [EC261 trigger]
+  ARR_DELAY (min)         : mean=4.78 median=2.9 p90=23.6 p95=33.3 p99=61.2
+
+Per-month
+------------------------------------------------------------
+ YYYY-MM       n_op    mean    med    p90   >=15m%   >=60m%   >=3h%   long%
+ 2023-03    681,919    4.67    2.6   23.9   19.51%    1.20%   0.02%   15.0%
+ 2023-06    884,823    6.74    4.4   26.6   23.24%    1.42%   0.02%   12.8%
+ 2023-09    899,495    5.07    3.3   23.5   20.14%    0.91%   0.02%   12.9%
+ 2023-12    697,362    4.37    2.5   23.1   19.06%    1.13%   0.03%   16.5%
+ 2024-03    727,011    2.51    1.2   19.9   15.54%    0.63%   0.02%   15.9%
+
+Year-over-year — March 2023 vs March 2024
+------------------------------------------------------------
+  flights      :   681,919 ->   727,011 (+6.61%)
+  mean delay   :      4.67 ->      2.51 (-2.16 min)
+  p90 delay    :      23.9 ->      19.9 (-4.0 min)
+  >=15m rate   :     19.51% ->     15.54% (-3.97pp)
+  >=60m rate   :      1.20% ->      0.63% (-0.57pp)
+  >=3h rate    :      0.02% ->      0.02% (-0.01pp)
+
+Distance tiers (EC261 Article 7)
+------------------------------------------------------------
+  short_haul : n= 2,299,851 (59.11%) 3h-rate= 0.01% payout=€ 250 expected=€ 0.03/flight
+  medium_haul: n= 1,028,658 (26.44%) 3h-rate= 0.01% payout=€ 400 expected=€ 0.05/flight
+  long_haul  : n=   562,101 (14.45%) 3h-rate= 0.08% payout=€ 600 expected=€ 0.48/flight
+
+Top 10 operators by volume
+------------------------------------------------------------
+  ZZZ    n=  674,381  mean_delay=  2.7min  >=3h= 0.02%
+  RYR    n=  401,819  mean_delay=  1.9min  >=3h= 0.01%
+  THY    n=  214,789  mean_delay=  6.4min  >=3h= 0.01%
+  DLH    n=  164,181  mean_delay=  1.5min  >=3h= 0.00%
+  AFR    n=  114,050  mean_delay= 10.5min  >=3h= 0.02%
+  EZY    n=  113,799  mean_delay=  5.2min  >=3h= 0.01%
+  KLM    n=   96,949  mean_delay=  9.1min  >=3h= 0.04%
+  SAS    n=   93,714  mean_delay=  1.2min  >=3h= 0.00%
+  VLG    n=   87,913  mean_delay=  3.7min  >=3h= 0.00%
+  BAW    n=   85,883  mean_delay= 15.6min  >=3h= 0.02%
+
+Top 10 routes by volume
+------------------------------------------------------------
+  GCLP-GCXO  n=  3,624  mean_delay= -4.2min  >=3h= 0.00%
+  GCXO-GCLP  n=  3,609  mean_delay= -3.5min  >=3h= 0.00%
+  LEBL-LEPA  n=  3,419  mean_delay=  2.7min  >=3h= 0.00%
+  LEPA-LEBL  n=  3,395  mean_delay= -1.6min  >=3h= 0.00%
+  ENVA-ENGM  n=  3,226  mean_delay= -5.4min  >=3h= 0.00%
+  ENGM-ENVA  n=  3,201  mean_delay= -0.1min  >=3h= 0.00%
+  GCRR-GCLP  n=  3,169  mean_delay= -4.2min  >=3h= 0.00%
+  GCLP-GCRR  n=  3,168  mean_delay=  0.4min  >=3h= 0.00%
+  KJFK-EGLL  n=  3,157  mean_delay= 12.3min  >=3h= 0.22%
+  EGLL-KJFK  n=  3,155  mean_delay=  5.2min  >=3h= 0.03%
+
+Expected-value ceiling under EC261 (no cause-code filter)
+------------------------------------------------------------
+  no-alpha           : €0.0976/flight
+  with alpha=0.65: €0.0635/flight
