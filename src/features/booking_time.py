@@ -25,6 +25,20 @@ BOOKING_NUMERIC = [
     "WX_WIND_FCST_24H",
     "WX_VISIBILITY_FCST_24H",
     "WX_CONVECTIVE_INDEX_24H",
+    # Leakage-safe operational features (schedule-derived only; precomputed on
+    # the full frame before splitting because rotation spans rows). Absent in
+    # the synthetic/smoke path -> created NaN below and median-imputed.
+    "SCHED_TURNAROUND_MIN",
+    "LEG_OF_DAY",
+    "ORIG_HOURLY_DEPARTURES",
+]
+
+# Operational features that the pipeline tolerates as missing (filled NaN when
+# the enrichment step did not run, e.g. synthetic data / smoke test).
+OPERATIONAL_OPTIONAL = [
+    "SCHED_TURNAROUND_MIN",
+    "LEG_OF_DAY",
+    "ORIG_HOURLY_DEPARTURES",
 ]
 BOOKING_CATEGORICAL = [
     "OP_UNIQUE_CARRIER",
@@ -95,6 +109,9 @@ class BookingTimeFeatureBuilder(BaseEstimator, TransformerMixin):
             df["AIRCRAFT_TYPE"] = "UNKNOWN"
         for c in ("WX_PRECIP_FCST_24H", "WX_WIND_FCST_24H",
                   "WX_VISIBILITY_FCST_24H", "WX_CONVECTIVE_INDEX_24H"):
+            if c not in df.columns:
+                df[c] = np.nan
+        for c in OPERATIONAL_OPTIONAL:
             if c not in df.columns:
                 df[c] = np.nan
 
