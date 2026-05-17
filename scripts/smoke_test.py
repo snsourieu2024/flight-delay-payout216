@@ -34,9 +34,10 @@ def main() -> int:
     from src.config import RAW_DIR
 
     t0 = time.time()
-    has_real = any(RAW_DIR.glob("bts_*.parquet")) or any(RAW_DIR.glob("bts_*.csv"))
-    print(f"Loading BTS data ({'real CSV/parquet on disk' if has_real else 'synthetic fallback'}) ...")
-    df = load_bts(fallback="synthetic", n_synthetic=60_000)
+    # Smoke test is a fast fail-fast regression check: ALWAYS synthetic,
+    # regardless of cached real data, so it stays ~30s (see module docstring).
+    print("Loading BTS data (synthetic, forced for speed) ...")
+    df = load_bts(force_synthetic=True, n_synthetic=60_000)
     df = prepare_modelling_frame(df)
     df = add_ticket_price(df, seed=1)
     y = label_eligible_delay(df).to_numpy()
