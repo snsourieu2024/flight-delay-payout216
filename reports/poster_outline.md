@@ -1,65 +1,60 @@
 # Poster Outline (A1 landscape, 841 × 594 mm)
 
-The poster MUST stop the reader at three feet. The single most powerful asset
-is the **per-flight threshold heatmap** — it explains the entire project in
-one image. Use it as the largest panel.
+Single message: **a rigorously diagnosed negative result**. The hero asset is
+the **break-even gap** — required confidence vs achievable probability.
 
-## Layout (3 rows × 4 columns)
+## Layout (title band + 3 rows × 3 columns)
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│  TITLE: "Profitable Flight Delays Under EC261"                              │
-│  Authors  •  Affiliation: IE University  •  Course code                     │
-├──────────────────┬─────────────────────────────────┬────────────────────────┤
-│ MOTIVATION       │       PER-FLIGHT THRESHOLD       │ DATASET               │
-│ - EC261 pays     │       HEATMAP τ*(T, d)           │ - BTS 2018-2024       │
-│   €250-€600      │       (the headline figure)       │ - 42M flights        │
-│ - Cheap ticket   │                                   │ - FAA + NOAA joins   │
-│   + likely delay │                                   │ - EUROCONTROL ADRR   │
-│   = arbitrage?   │                                   │   (EU validation)    │
-├──────────────────┼─────────────────────────────────┴────────────────────────┤
-│ METHODS          │  RESULTS PANEL                                            │
-│ Pipeline:        │  ┌─────────────┬──────────────┬──────────────────────┐ │
-│ - leakage audit  │  │ Model       │ ROC-AUC      │ ROI per-flight       │ │
-│ - booking-time   │  │ Dummy       │ 0.500        │ n/a                  │ │
-│   features       │  │ LogReg      │ 0.xx         │ x.x%                 │ │
-│ - 6-model ladder │  │ RandomForest│ 0.xx         │ x.x%                 │ │
-│ - isotonic cal   │  │ XGBoost+iso │ **0.xx**     │ **x.x%**             │ │
-│ - Bayesian tune  │  └─────────────┴──────────────┴──────────────────────┘ │
-│ - SHAP           │  Profit-vs-threshold curve (sparkline)                    │
-│                  │  Bankroll-constrained ROI by budget (small bar)           │
-├──────────────────┼─────────────────────────────────┬────────────────────────┤
-│ INTERPRETATION   │ FAILURE MODES                    │ REFERENCES & TOOLS    │
-│ Top SHAP feats:  │ - evening hub departures         │ EC261, BTS, FAA       │
-│ - route 90D rate │   in winter overconfident        │ scikit-learn, XGBoost │
-│ - dep hour       │ - weather causes look like       │ SHAP, scikit-optimize │
-│ - tail 365D rate │   carrier delays in features     │ EUROCONTROL ADRR       │
-│ - aircraft age   │ - EU transfer: monotonic deciles │ GitHub: <repo URL>    │
-└──────────────────┴─────────────────────────────────┴────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────┐
+│ Profitable Flight-Delay Prediction Under EC261 — A Diagnosed Negative      │
+│ Result   •   6 authors   •   IE University   •   BCSAI2025CSAI.2.M.A C2    │
+├──────────────────┬───────────────────────────────┬────────────────────────┤
+│ MOTIVATION       │  HERO: BREAK-EVEN GAP          │ DATA                   │
+│ EC261 €250–600   │  required τ* ≈ 0.63 vs best   │ Real BTS 2024 6.97 M → │
+│ for carrier 3h+  │  cohort 7.7 % vs base 1.2 %   │ seeded 150 k sample    │
+│ delays. Cheap    │  → ~8× structural gap         │ EC261 base rate 1.18 % │
+│ ticket + likely  │  (τ*(T,d) heatmap +           │ EUROCONTROL 3.89 M     │
+│ delay = +EV?     │   profit-curve panel)         │ (transfer test)        │
+├──────────────────┼───────────────────────────────┼────────────────────────┤
+│ METHOD           │  RESULTS (real test, n=29,604)│ EU TRANSFER            │
+│ leakage-audited  │  Model(+iso) ROC-AUC PR ROI   │ Spearman ρ = −1.00     │
+│ pipeline; 6-model│  Dummy  0.500 .0081 0.0%      │ (ranking inverted);    │
+│ ladder; isotonic │  LogReg 0.557 .0100 0.0%      │ top-k lift ≤ 1.03;     │
+│ calibration;     │  RF     0.576 .0102 0.0%      │ EU has real signal     │
+│ Grid/Rand/Bayes  │  XGB    0.587 .0107 0.0%      │ (15.6%→39.2% by haul)  │
+│ on a profit      │  → ALL abstain: 0 buys,       │ the BTS model cannot   │
+│ scorer           │  −€19,941. Uncal XGB −187.6 % │ exploit                │
+├──────────────────┼───────────────────────────────┼────────────────────────┤
+│ INTERPRETATION   │ WHY IT FAILS (structural)     │ REFLECTION / REFS      │
+│ Perm. importance:│ EC261 cap €250–600 × α0.65    │ Negative result =      │
+│ FL_DATE, dep-hr, │ < ticket+€65 friction for a   │ finding (brief §1/§2). │
+│ aircraft age,    │ ~1 % event. No α, no τ, no    │ Limits: synthetic      │
+│ distance.        │ bankroll is profitable.       │ fares, 1-yr split.     │
+│ Cause cols 0.000 │ Calibration → correct         │ scikit-learn, XGBoost  │
+│ (leakage guard). │ abstention.                   │ GitHub: <repo>         │
+└──────────────────┴───────────────────────────────┴────────────────────────┘
 ```
 
-## One-paragraph elevator (top of poster)
+## Elevator (top strip)
 
-> Flight-delay prediction usually maximises F1 or ROC-AUC. We argue that under
-> EC261 — which pays €250-€600 for delays of 3+ hours that are not weather or
-> ATC-attributable — the right metric is **expected ROI on a bankroll-
-> constrained portfolio**. The optimal threshold is *flight-specific*: a €30
-> short-haul ticket needs a higher predicted P(delay) than a €300 long-haul
-> ticket. Calibration is not optional. We trained six models on the BTS dataset
-> with a leakage-audited pipeline and validated transfer to EUROCONTROL ADRR.
+> Flight-delay prediction usually maximises F1. Under EC261 the right objective
+> is expected ROI on a bankroll. We built a leakage-audited 6-model pipeline
+> with isotonic calibration and a custom profit metric on real 2024 BTS data.
+> Result: **no positive-EV ticket exists** — every calibrated model correctly
+> abstains (ROI 0 %). A closed-form break-even shows the required confidence
+> (~63 %) is ~8× any achievable delay rate; a 3.89 M-flight EUROCONTROL
+> transfer test independently confirms it (ρ = −1.00). This is the finding.
 
-## Visual hierarchy guidelines
+## Panels → figures (reuse real PNGs from reports/figures/)
 
-1. The τ*(T, d) heatmap is **the** poster.  ~25% of total area.
-2. Single results table, three columns max, ranked by ROI.
-3. One sparkline-style profit-vs-threshold plot.
-4. SHAP bar plot for top-10 features.
-5. A simple confusion-matrix-style failure-mode 2×2.
-6. Avoid walls of text. Use ≤2 sentences per panel.
+1. Hero left: `04_tau_heatmap.png` (required τ*) beside `04_profit_curve.png` (no profitable point)
+2. Calibration: `05_calibration_before_after.png`
+3. Interpretation: `05_permutation_importance.png`
+4. EU: `06_decile_monotonicity.png` (inverted) + `06_tier_concentration.png`
+5. Confusion: `04_confusion_at_tau.png` (zero positive predictions = correct abstention)
 
-## Build instructions
-
-- LaTeX `beamerposter` template OR Figma A1 template (instructor permits both).
-- Colour palette: matplotlib default `tab10`, no rainbow. Reserve red for losses.
-- Embedded fonts. PDF must be printer-ready at 300 DPI.
-- Department offers printing — submit by **20 May** deadline.
+## Build
+- A1 landscape 841×594 mm, 300 DPI, embedded fonts, printer-ready PDF.
+- Palette: muted; red reserved for losses. ≤2 sentences per panel.
+- Department prints; deadline **20 May**.
