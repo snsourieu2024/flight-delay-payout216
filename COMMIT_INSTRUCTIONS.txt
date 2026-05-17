@@ -1,0 +1,11 @@
+Adam Khoury - push #4 of 6   Repo: https://github.com/snsourieu2024/flight-delay-payout216
+On YOUR machine, signed into YOUR GitHub:
+  git clone https://github.com/snsourieu2024/flight-delay-payout216.git && cd flight-delay-payout216
+  git config user.name "Adam Khoury"
+  git config user.email "<your-github-email>"
+  git pull --rebase                 # wait until push #3 is done
+  unzip -o ../4_adam.zip -d .
+  git add notebooks/04_threshold_optimization.ipynb reports/figures/04_alpha_sensitivity.png reports/figures/04_bankroll_curve.png reports/figures/04_profit_curve.png reports/figures/04_reliability_diagram.png reports/figures/04_tau_heatmap.png scripts/breakeven_analysis.py src/eval/__init__.py src/eval/bootstrap.py src/eval/profit_metric.py src/eval/recommendations.py src/eval/threshold.py tests/test_profit_metric.py tests/test_recommendations.py tests/test_threshold.py
+  git commit -m "Profit metric, per-flight tau*, break-even + threshold tests & figures"
+  git push
+Commit only work you genuinely own. Order: Salma->Lama->Sanad->Adam->Habib->Issam.
