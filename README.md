@@ -1,219 +1,127 @@
-# Flight Delay Predictor
+# Flight-Delay Prediction Under EC261 — A Diagnosed Negative Result
 
-Predicting EC261-eligible flight delays as a decision-under-uncertainty problem.
-Final project for *Machine Learning Foundations* (BCSAI2025CSAI.2.M.A C2 493615) — IE University, Spring 2026.
+Final project for *Machine Learning Foundations* (BCSAI2025CSAI.2.M.A C2 493615) —
+IE University, Spring 2026.
 
 ## TL;DR
 
-We treat flight-delay prediction not as a classification accuracy problem but as a
-**positive-expected-value betting problem under EC261 (EU 261/2004) compensation rules**.
-The headline plot is a *profit-versus-threshold* curve, not an F1 score. The model is
-trained on US BTS data (~42M flights) using EC261-equivalent labels, then transferred
-to EUROCONTROL ADRR data for an EU validation case study.
+We treat flight-delay prediction not as a classification-accuracy problem but as
+a **positive-expected-value betting problem under EC261** (EU 261/2004)
+compensation rules, and we show — rigorously — that **no positive-EV ticket
+exists**: every calibrated model correctly learns to *abstain* (test ROI 0 %).
+This is a deliberately presented, fully diagnosed **negative result**, which the
+assignment brief explicitly values. The model is trained on **real US BTS 2024**
+data (a seeded 150 k stratified sample of 6.97 M flights) and the conclusion is
+independently confirmed on **3.89 M real EUROCONTROL flights**.
 
-## Why this is interesting
+## Why it is interesting
 
-- **The decision threshold is flight-specific.** A €30 short-haul ticket needs a much
-  higher predicted P(delay) to be worth buying than a €300 long-haul ticket, because
-  the EC261 payout (€250–€600) is a step function of distance. This pushes the
-  problem out of standard "tune one global threshold" territory into proper
-  decision-theoretic optimisation.
-- **EC261's "extraordinary circumstances" exemption changes the label.** Weather,
-  ATC restrictions, and strikes are exempt from compensation under the September
-  2025 amendment. The right target is therefore *carrier-attributable* delay, not
-  raw delay — which we encode using BTS cause-codes (`CARRIER_DELAY` and
-  `LATE_AIRCRAFT_DELAY` only).
-- **Calibration matters.** Expected-value math fails on uncalibrated probabilities,
-  so every model is wrapped with isotonic calibration and we publish a reliability
-  diagram per model.
-
-## Repository layout
-
-```
-flight-profit/
-  README.md
-  requirements.txt
-  Makefile                    # Common entry points: setup, smoke, train, report
-  src/
-    config.py                 # Paths and constants
-    data/
-      loaders.py              # BTS, ADRR, FAA loaders (parquet-first)
-      bts_schema.py           # BTS PREZIP CSV → internal schema mapping
-      ec261.py                # Compensation tiers + label generator
-      synthetic.py            # Realistic BTS-like generator for smoke tests
-    features/
-      booking_time.py         # BookingTimeFeatureBuilder (leakage-safe)
-      historical.py           # Train-fold-only rolling stats
-      cyclical.py             # Cyclical encoders for hour/day/month
-    models/
-      registry.py             # Model factory: dummy, logreg, tree, RF, XGB, MLP
-      calibrated.py           # CalibratedClassifierCV wrappers
-    pipeline/
-      build.py                # Sklearn Pipeline + ColumnTransformer assembly
-      splits.py               # Year-based and TimeSeriesSplit helpers
-    eval/
-      profit_metric.py        # Custom Sklearn scorer (corrected cost matrix)
-      threshold.py            # tau*(T, d) and global profit-curve sweep
-      bootstrap.py            # Bootstrapped CIs on profit
-      calibration.py          # Reliability diagrams
-      shap_utils.py           # SHAP wrappers
-      failure_modes.py        # Error-binning and case-study extractors
-    report/
-      narrative.py            # Helpers used by 99_final_pipeline notebook
-  scripts/
-    download_bts.py
-    download_faa.py
-    generate_synthetic.py
-    smoke_test.py             # End-to-end on synthetic data, ~30s
-  notebooks/
-    00_data_acquisition.ipynb
-    01_eda.ipynb
-    02_feature_engineering.ipynb
-    03_modeling.ipynb
-    04_threshold_optimization.ipynb
-    05_interpretation_shap.ipynb
-    06_eu_transfer_validation.ipynb
-    99_final_pipeline.ipynb   # Runs the entire pipeline top-to-bottom
-  tests/
-    test_ec261.py
-    test_features.py
-    test_profit_metric.py
-    test_threshold.py
-    test_pipeline.py
-  reports/
-    final_report.md           # 2000-word writeup (rendered to PDF for submission)
-    poster_outline.md
-    slides_outline.md
-  data/                       # Gitignored except sample/
-    raw/
-    interim/
-    processed/
-    sample/                   # Tiny CSV checked in for CI smoke test
-  .github/workflows/ci.yml    # Runs smoke_test.py on every push
-```
+- **The decision threshold is flight-specific.** A €30 short-haul ticket needs a
+  far higher predicted P(delay) to be worth buying than a €300 long-haul one,
+  because the EC261 payout (€250–600) is a step function of distance. We derive
+  the per-flight optimal threshold τ\*(T, d) in closed form.
+- **The negative result is structural, not a tuning artifact.** A break-even
+  analysis shows the required confidence (~63 %) is ~8× the highest eligible-
+  delay rate of any route-carrier cohort (7.7 %). EC261's capped payout cannot
+  cover ticket + friction for a ~1 % event.
+- **Calibration is decisive.** Uncalibrated models actively bet and lose money;
+  isotonic calibration is what makes them correctly abstain.
 
 ## Quick start
 
 ```bash
-# 1. Environment
-python3.11 -m venv .venv
-source .venv/bin/activate
+python3.11 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-
-# 2. Smoke test (auto-detects real CSVs/parquets, falls back to synthetic, ~30s)
-python scripts/smoke_test.py
-
-# 3. Real data (incremental, resumable)
-#    Each month is written to data/raw/bts_YYYY_MM.parquet (~8 MB each).
-#    Re-running the script skips months already on disk.
-python scripts/download_bts.py --years 2024                   # ~300 MB download, ~25 min
-python scripts/download_bts.py --years 2023 2024              # validation + test
-python scripts/download_bts.py --years 2018 2019 2020 2021 2022 2023 2024  # full plan
-python scripts/download_faa.py                                # optional aircraft join
-
-# 4. Run the full pipeline
-jupyter nbconvert --to notebook --execute notebooks/99_final_pipeline.ipynb
+make smoke            # ~30s, synthetic, fail-fast regression check
 ```
 
-The loader (`src/data/loaders.py::load_bts`) auto-prefers per-month parquet
-files in `data/raw/`, falls back to per-year CSV, and finally falls back to
-the synthetic generator if nothing is on disk. This means the pipeline runs
-top-to-bottom in any environment — required by the rubric — and the same
-notebook produces real-data results the moment the download completes.
-
-### Storage footprint
-
-| Source / granularity | Disk (parquet) | Disk (CSV equivalent) |
-|---|---|---|
-| BTS — 1 month | ~8 MB | ~250 MB |
-| BTS — 1 year | ~95 MB | ~3 GB |
-| BTS — 7 years (full plan) | ~670 MB | ~21 GB |
-| EUROCONTROL R&D Archive — 5 months / 3.89 M EU flights | **113 MB** | ~590 MB (gzip) |
-
-Parquet is ~30× smaller than the BTS-native CSV (and ~5× smaller than the
-gzip-CSV the EUROCONTROL R&D Archive ships) thanks to typed columns and
-columnar compression, and pandas reads it ~5× faster.
-
-## Data sources
-
-| Source | Role | Access |
-|---|---|---|
-| **BTS Reporting Carrier On-Time Performance** | Primary training data — per-flight schedule and actual times | Free CSV at https://www.transtats.bts.gov/Tables.asp?DB_ID=120 |
-| **BTS Cause of Delay** | Label generator — minutes attributed to each delay cause | Free CSV at https://www.transtats.bts.gov/ot_delay/ot_delaycause1.asp |
-| **FAA Aircraft Registry** | Aircraft age/type via tail-number join | Free CSV at https://registry.faa.gov/aircraftinquiry |
-| **EUROCONTROL R&D Data Archive** | EU transfer-validation case study (5 months, 3.89 M flights) | Free, no login required, at https://www.eurocontrol.int/dashboard/rnd-data-archive |
-| **EUROCONTROL ADRR** | EU transfer-validation case study (gated, full cause codes) | Free academic access at https://ext.eurocontrol.int/prisme_data_provision_hmi/ |
-| **NOAA GFS reanalysis (24h forecast)** | Booking-time weather features | Free at https://www.ncei.noaa.gov |
-| **OpenFlights** | Airport metadata for distance-tier mapping | Public domain CSV |
-
-## EU validation strategy
-
-The legal regime modelled throughout the project is EU Regulation 261/2004
-(EC261). The training substrate is **US BTS** because it is the only large,
-free, per-flight dataset that exposes BTS-style cause-of-delay codes —
-without those, the EC261-eligible label collapses to raw "3+ hour delay" and
-the project loses its main intellectual contribution (separating
-carrier-attributable delays from extraordinary circumstances).
-
-The transfer-validation chapter (`notebooks/06_eu_transfer_validation.ipynb`)
-evaluates the BTS-trained model on real EU operations to measure how well the
-ranking transfers. The substrate is the **EUROCONTROL R&D Data Archive** — a
-free, login-free per-flight feed:
-
-| Source | Used | Coverage | Cause codes | Notes |
-|---|---|---|---|---|
-| **EUROCONTROL R&D Archive** | ✅ 5 months ingested | 2023-Mar, Jun, Sep, Dec + 2024-Mar | None (filed-vs-actual times only) | Free, no login. **3.89 M real EU flights** in cache. |
-| **EUROCONTROL ADRR** | future work | Europe, monthly | Coarse delay-reason groups | Requires academic registration (~24-48h human approval). |
-| **OpenSky Network** | not used | Global, real-time historical | None (tracking only) | Free fallback if R&D Archive is unavailable. |
-
-Two practical caveats — quantified in `reports/eu_data_analysis.md`:
-
-1. **R&D Archive `FILED ARRIVAL TIME` is the latest IFPS trajectory estimate**,
-   not the airline's published schedule, so ATFM slot delays are absorbed
-   pre-takeoff and the `≥3h` rate sits at **0.02 %** rather than the ~3 %
-   EUROCONTROL CODA reports against the published timetable. The transfer
-   chapter therefore evaluates ranking quality at the **CODA-aligned `≥15min`
-   threshold** (EU base rate **19.68 %**) and uses the `≥3h` rate as a
-   tail-only sanity check.
-2. **No cause codes** ⇒ the label is `y_eu = (arr_delay >= threshold)`, not
-   the EC261-eligible label used at training time. The chapter reports
-   ranking-quality metrics (decile monotonicity, top-k lift, Spearman rank
-   correlation) rather than direct ROI.
-
-Reproducing the EU pipeline takes one command after dropping the zip files at
-the repo root:
-
-```bash
-unzip -q '20*.zip'                       # 5 monthly drops -> 5 directories
-python scripts/process_eurocontrol.py    # ~17 s, writes data/raw/eurocontrol_*.parquet
-python scripts/analyse_eurocontrol.py    # ~10 s, writes reports/eurocontrol_summary.{json,txt}
-```
+The repo already ships the real data under `data/raw/` (12 monthly BTS-2024
+parquets + 5 EUROCONTROL R&D Archive parquets + FAA registry + weather cache),
+so the full pipeline runs offline with no downloads.
 
 ## Reproducing the results
 
 ```bash
-make setup              # Install requirements
-make smoke              # ~30s synthetic-data sanity check
-make data               # Download all real data (~2-3 GB)
-make train              # Train all models with hyperparameter search (~6h on laptop)
-make evaluate           # Threshold sweep + SHAP + EU validation
-make report             # Render 99_final_pipeline.ipynb to HTML/PDF
+make setup            # pip install -r requirements.txt
+make smoke            # ~30s synthetic sanity check
+make train            # NB00→NB03: builds the 150k sample, tunes the ladder
+make evaluate         # NB04/05/06: thresholds, interpretation, EU transfer
+make report           # NB99 end-to-end + HTML render
 ```
 
-A GitHub Actions workflow (`.github/workflows/ci.yml`) runs `make smoke` on every
-push so the pipeline cannot silently break.
+`make train` honours a configurable tuning budget; the fast default used for
+submission is `RF_RANDOM_N_ITER=6 XGB_BAYES_N_ITER=10` (minutes on the 150 k
+sample, not hours). Override on the command line for a heavier search.
 
-## Team and contributions
+Or run the notebooks in order: `00 → 01 → 02 → 03 → 04 → 05 → 06 → 99`.
+**Notebook 00 is self-contained**: it builds the full 2024 frame
+(`data/processed/flights.full2024.parquet`, provenance) and writes the
+documented, seeded, month×label-stratified **150 k sample** as the canonical
+modelling input (`data/processed/flights.parquet`). No hidden manual step.
+`scripts/make_sample.py` rebuilds that sample standalone and uses the exact same
+`src.data.sampling.stratified_modelling_sample` function.
 
-See `reports/final_report.md` for the contribution matrix. Every group member is
-expected to commit to GitHub regularly — the syllabus penalises uneven commit history.
+Submission deliverables are pre-built in `reports/`:
+`final_report.pdf`, `slides.pdf` (10 slides), `poster.pdf` (A1) — regenerate
+the deck/poster with `python scripts/build_deliverables.py`.
+
+## Repository layout
+
+```
+src/
+  config.py                 # Paths, EC261 params, seeds
+  data/
+    loaders.py              # BTS / EUROCONTROL / FAA / weather loaders + augmenters
+    bts_schema.py           # BTS CSV → internal schema mapping
+    ec261.py                # Compensation tiers + EC261-eligible label
+    sampling.py             # Seeded month×label-stratified modelling sample
+    synthetic.py            # Deterministic synthetic generators (offline/CI)
+  features/                 # Booking-time, historical (train-fold-only), cyclical
+  models/                   # Model ladder factory, tuning spaces, calibration
+  pipeline/                 # sklearn Pipeline assembly + temporal splits
+  eval/                     # Profit metric, τ*, bootstrap, calibration, SHAP, failure modes
+scripts/
+  breakeven_analysis.py     # Root-cause structural-negative diagnostic
+  make_sample.py            # Standalone rebuild of the documented sample
+  build_deliverables.py     # Renders slides.pdf + poster.pdf
+  smoke_test.py             # ~30s synthetic end-to-end (CI)
+notebooks/                  # 00–06 + 99_final_pipeline (run top-to-bottom)
+  archive/                  # Superseded notebook snapshots (not graded)
+tests/                      # pytest suite (pipeline, label, metric, threshold, …)
+reports/                    # final_report.{md,pdf}, slides.pdf, poster.pdf, figures/
+data/raw/                   # Real BTS-2024, EUROCONTROL, FAA, weather (gitignored)
+```
+
+## Data sources
+
+| Source | Role | Form on disk |
+|---|---|---|
+| **BTS Reporting-Carrier On-Time + Cause of Delay (2024)** | Primary training data — real, per-flight | `data/raw/bts_2024_01..12.parquet` (6.97 M flights) |
+| **EUROCONTROL R&D Data Archive** | EU transfer validation (real, login-free) | `data/raw/eurocontrol_2023_{03,06,09,12}.parquet` + `2024_03` (3.89 M flights) |
+| **FAA Aircraft Registry** | Aircraft age/type via tail-number join | `data/raw/faa_registry.csv` (~6 % null after join) |
+| **Open-Meteo 24h forecast cache** | Booking-time weather features | `data/raw/weather_us_2024.parquet` |
+
+Only single-year (2024) BTS is used, so the temporal split degrades to a
+date-ordered 65/15/20 quantile split — stated as a limitation in the report,
+not disguised. EUROCONTROL `FILED ARRIVAL TIME` already absorbs ATFM slot
+delays, so transfer ranking is evaluated at the CODA-aligned ≥15 min threshold.
+
+## Headline result (real 2024 BTS, test n = 29,604)
+
+Every calibrated model converges on the same EV-optimal decision — **abstain**:
+ROI 0 %, 0 buys. Uncalibrated models bet and lose €0.3–1.3 M. No global
+threshold, no per-flight τ\*, no claim-success rate α ∈ [0.30, 0.95], and no
+bankroll size is profitable. See `reports/final_report.pdf` for the full
+analysis and `artefacts/breakeven_analysis.txt` for the structural proof.
+
+## Team
+
+Habib Rahal · Issam Arida · Adam Khoury · Lama Moucattash · Salma Nsour ·
+Sanad ALbilleh. Every member commits their own work to GitHub; the syllabus
+grades individual contribution via commit history.
 
 ## References
 
-- Regulation (EC) No 261/2004, as amended September 2025
-- ECJ *Sturgeon* (C-402/07) — establishes 3-hour arrival-delay trigger
-- AirHelp, *Annual Compensation Report* — empirical claim-success rate
-- Lundberg & Lee 2017, *A Unified Approach to Interpreting Model Predictions* (SHAP)
-- BTS Aviation Support Tables, *Reporting Carrier On-Time Performance* documentation
-- EUROCONTROL, *R&D Data Archive — metadata and column dictionary*, accessed via https://www.eurocontrol.int/dashboard/rnd-data-archive
-- EUROCONTROL, *CODA Punctuality and Delay Analysis*, monthly reports — used as the gate-to-gate reference for the FILED-vs-published comparison
+- Regulation (EC) No 261/2004, as amended September 2025; ECJ *Sturgeon* (C-402/07).
+- BTS Reporting-Carrier On-Time documentation; EUROCONTROL R&D Data Archive + CODA reports.
+- Pedregosa et al. (2011) scikit-learn; Chen & Guestrin (2016) XGBoost; Lundberg & Lee (2017) SHAP.

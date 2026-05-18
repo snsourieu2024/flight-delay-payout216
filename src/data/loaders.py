@@ -157,6 +157,22 @@ def load_faa_registry(raw_dir: Path | None = None) -> pd.DataFrame:
     return pd.read_csv(path)
 
 
+def load_weather(raw_dir: Path | None = None) -> pd.DataFrame | None:
+    """Load the cached 24h weather-forecast features for the origin/date join.
+
+    Format produced by ``scripts/fetch_external.py``:
+    ``weather_us_2024.parquet`` with columns ``FL_DATE``, ``ORIGIN`` and the
+    ``WX_*`` forecast features. Returns ``None`` when the cache is absent so
+    ``augment_with_weather`` degrades to a documented no-op (the
+    no-network/synthetic guarantee is preserved).
+    """
+    raw_dir = Path(raw_dir) if raw_dir else RAW_DIR
+    path = raw_dir / "weather_us_2024.parquet"
+    if not path.exists():
+        return None
+    return pd.read_parquet(path)
+
+
 def augment_with_aircraft(
     df: pd.DataFrame,
     registry: pd.DataFrame | None = None,
@@ -178,8 +194,9 @@ def augment_with_aircraft(
         on="TAIL_NUM",
         how="left",
     )
+    mfg_year = pd.to_numeric(merged["MFG_YEAR"], errors="coerce")
     merged["AIRCRAFT_AGE_YEARS"] = (
-        merged["FL_DATE"].dt.year - merged["MFG_YEAR"]
+        merged["FL_DATE"].dt.year - mfg_year
     ).clip(lower=0)
     merged["AIRCRAFT_TYPE"] = merged["AIRCRAFT_TYPE"].fillna("UNKNOWN")
     return merged.drop(columns=["MFG_YEAR"])
